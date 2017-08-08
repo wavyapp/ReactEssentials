@@ -1,14 +1,23 @@
-import RecyclerListView from "./src/recyclerlistview/RecyclerListView";
-import DataProvider from "./src/recyclerlistview/dependencies/DataProvider";
-import LayoutProvider from "./src/recyclerlistview/dependencies/LayoutProvider";
-import ContextProvider from "./src/recyclerlistview/dependencies/ContextProvider";
-export default{
-    RecyclerListView,
-    DataProvider,
-    LayoutProvider,
-    ContextProvider
+/* @flow */
+/* eslint-disable import/no-commonjs */
+
+module.exports = {
+    get TabViewAnimated() {
+        return require('./src/tabview/TabViewAnimated').default;
+    },
+    get TabViewPagerPan() {
+        return require('./src/tabview/TabViewPagerPan').default;
+    },
+    get TabViewPagerScroll() {
+        return require('./src/tabview/TabViewPagerScroll').default;
+    },
+    get TabViewPagerAndroid() {
+        return require('./src/tabview/TabViewPagerAndroid').default;
+    },
+    get TabBar() {
+        return require('./src/tabview/TabBar').default;
+    },
+    get SceneMap() {
+        return require('./src/tabview/SceneMap').default;
+    },
 };
-export {RecyclerListView};
-export {DataProvider};
-export {LayoutProvider};
-export {ContextProvider};
