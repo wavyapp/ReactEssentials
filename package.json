@@ -1,0 +1,21 @@
+{
+  "name": "scrollabletabs",
+  "version": "1.0.0",
+  "description": "Separate tab header component which gives you relevant callbacks to build your own tab implementation",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/Flipkart/ReactEssentials.git#scrollabletabs-master"
+  },
+  "author": "naqvitalha <naqvitalha@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Flipkart/ReactEssentials/issues"
+  },
+  "homepage": "https://github.com/Flipkart/ReactEssentials/tree/scrollabletabs-master#readme"
+}
