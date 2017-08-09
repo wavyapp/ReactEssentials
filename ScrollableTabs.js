@@ -68,7 +68,7 @@ const ScrollableTabs = React.createClass({
         }
     },
 
-    updateOffsetExternal(currentOffset, maxWidth) {
+    updateOffsetExternal(currentOffset, pageWidth) {
         this.scrollValue.setValue(currentOffset / maxWidth);
     },
 
