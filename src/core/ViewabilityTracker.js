@@ -138,11 +138,16 @@ class ViewabilityTracker {
 
     _findFirstVisibleIndexUsingBS(bias = 0) {
         const count = this._layouts.length;
+        console.log('count:' + count);
         return BinarySearch.findClosestHigherValueIndex(count, this._visibleWindow.start + bias, this._valueExtractorForBinarySearch);
     }
 
     _valueExtractorForBinarySearch(index) {
+        if (index < 0) {
+            index = 0;
+        }
         let itemRect = this._layouts[index];
+        console.log('Binary Search index:' + index, itemRect, this._layouts);
         this._setRelevantBounds(itemRect, this._relevantDim);
         return this._relevantDim.endBound;
     }

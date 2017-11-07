@@ -101,6 +101,12 @@ class RecyclerListView extends Component {
     }
 
     componentWillReceiveProps(newProps) {
+        if (!this._initComplete) {
+            this._initComplete = true;
+            this._initTrackers();
+            this._processOnEndReached();
+            this._checkAndChangeLayouts(this.props);
+        }
         this._assertDependencyPresence(newProps);
         this._checkAndChangeLayouts(newProps, true);
         if (!this.props.onVisibleIndexesChanged) {
@@ -126,7 +132,7 @@ class RecyclerListView extends Component {
             }, 0);
         }
         this._processOnEndReached();
-        this._checkAndChangeLayouts(this.props, true);
+        this._checkAndChangeLayouts(this.props);
     }
 
     componentWillUnmount() {
@@ -221,7 +227,9 @@ class RecyclerListView extends Component {
                 //TODO:Talha use old layout manager
                 console.log('Layout manager set');
                 this._virtualRenderer.setLayoutManager(new LayoutManager(newProps.layoutProvider, this._layout, newProps.isHorizontal));
-                this._virtualRenderer.refreshWithAnchor();
+                setTimeout(() => {
+                    this._virtualRenderer.refreshWithAnchor();
+                }, 500);
             } else if (this.props.dataProvider !== newProps.dataProvider) {
                 console.log('get layout called');
                 if (this._virtualRenderer.getLayoutManager()) {
@@ -238,7 +246,7 @@ class RecyclerListView extends Component {
                 }
             }
         } catch (err) {
-
+            console.log(err);
         }
     }
 
@@ -425,6 +433,7 @@ class RecyclerListView extends Component {
             }
         } catch (err) {
             //TODO: Talha: find something to do
+            console.log(err);
         }
     }
 

@@ -12,7 +12,7 @@ class LayoutManager {
         this._window = dimensions;
         this._totalHeight = 0;
         this._totalWidth = 0;
-        this._layouts = cachedLayouts ? cachedLayouts : [];
+        this._layouts = cachedLayouts || [];
         this._isHorizontal = isHorizontal;
     }
 
@@ -35,9 +35,9 @@ class LayoutManager {
         }
     }
 
-    overrideLayout(index, dim){
+    overrideLayout(index, dim) {
         let layout = this._layouts[index];
-        if(layout){
+        if (layout) {
             layout.isOverridden = true;
             layout.width = dim.width;
             layout.height = dim.height;
@@ -46,6 +46,7 @@ class LayoutManager {
 
     //TODO:Talha laziliy calculate in future revisions
     reLayoutFromIndex(startIndex, itemCount) {
+        console.log('reLayoutFromIndex called');
         startIndex = this._locateFirstNeighbourIndex(startIndex);
         let startX = 0;
         let startY = 0;
@@ -68,7 +69,7 @@ class LayoutManager {
 
         for (let i = startIndex; i < itemCount; i++) {
             oldLayout = this._layouts[i];
-            if(oldLayout && oldLayout.isOverridden){
+            if (oldLayout && oldLayout.isOverridden) {
                 itemDim.height = oldLayout.height;
                 itemDim.width = oldLayout.width;
             }
@@ -115,6 +116,9 @@ class LayoutManager {
             this._layouts.splice(itemCount, oldItemCount - itemCount);
         }
         this._setFinalDimensions(maxBound);
+        console.log('reLayoutFromIndex completed');
+        console.log('this.layouts: ');
+        console.log(this._layouts);
     }
 
     _pointDimensionsToRect(itemRect) {

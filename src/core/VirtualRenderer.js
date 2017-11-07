@@ -65,6 +65,7 @@ class VirtualRenderer {
     }
 
     setLayoutManager(layoutManager) {
+        console.log('layout Manager set');
         this._layoutManager = layoutManager;
         this._layoutManager.reLayoutFromIndex(0, this._params.itemCount);
     }
@@ -78,6 +79,7 @@ class VirtualRenderer {
     }
 
     refreshWithAnchor() {
+        console.log('refresh with anchor called:' + this._layoutManager.getLayouts());
         let firstVisibleIndex = this._viewabilityTracker.findFirstLogicallyVisibleIndex();
         this._prepareViewabilityTracker();
         let offset = 0;
