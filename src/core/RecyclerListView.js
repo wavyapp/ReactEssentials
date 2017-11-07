@@ -102,7 +102,7 @@ class RecyclerListView extends Component {
 
     componentWillReceiveProps(newProps) {
         this._assertDependencyPresence(newProps);
-        this._checkAndChangeLayouts(newProps);
+        this._checkAndChangeLayouts(newProps, true);
         if (!this.props.onVisibleIndexesChanged) {
             this._virtualRenderer.removeVisibleItemsListener();
         }
@@ -126,7 +126,7 @@ class RecyclerListView extends Component {
             }, 0);
         }
         this._processOnEndReached();
-        this._checkAndChangeLayouts(this.props);
+        this._checkAndChangeLayouts(this.props, true);
     }
 
     componentWillUnmount() {
@@ -213,20 +213,32 @@ class RecyclerListView extends Component {
     }
 
     _checkAndChangeLayouts(newProps, forceFullRender) {
-        this._params.isHorizontal = newProps.isHorizontal;
-        this._params.itemCount = newProps.dataProvider.getSize();
-        this._virtualRenderer.setParamsAndDimensions(this._params, this._layout);
-        if (forceFullRender || this.props.layoutProvider !== newProps.layoutProvider || this.props.isHorizontal !== newProps.isHorizontal) {
-            //TODO:Talha use old layout manager
-            this._virtualRenderer.setLayoutManager(new LayoutManager(newProps.layoutProvider, this._layout, newProps.isHorizontal));
-            this._virtualRenderer.refreshWithAnchor();
-        } else if (this.props.dataProvider !== newProps.dataProvider) {
-            this._virtualRenderer.getLayoutManager().reLayoutFromIndex(newProps.dataProvider._firstIndexToProcess, newProps.dataProvider.getSize());
-            this._virtualRenderer.refresh();
-        } else if (this._relayoutReqIndex >= 0) {
-            this._virtualRenderer.getLayoutManager().reLayoutFromIndex(this._relayoutReqIndex, newProps.dataProvider.getSize());
-            this._relayoutReqIndex = -1;
-            this._refreshViewability();
+        try {
+            this._params.isHorizontal = newProps.isHorizontal;
+            this._params.itemCount = newProps.dataProvider.getSize();
+            this._virtualRenderer.setParamsAndDimensions(this._params, this._layout);
+            if (forceFullRender || this.props.layoutProvider !== newProps.layoutProvider || this.props.isHorizontal !== newProps.isHorizontal) {
+                //TODO:Talha use old layout manager
+                console.log('Layout manager set');
+                this._virtualRenderer.setLayoutManager(new LayoutManager(newProps.layoutProvider, this._layout, newProps.isHorizontal));
+                this._virtualRenderer.refreshWithAnchor();
+            } else if (this.props.dataProvider !== newProps.dataProvider) {
+                console.log('get layout called');
+                if (this._virtualRenderer.getLayoutManager()) {
+                    this._virtualRenderer.getLayoutMxanager().reLayoutFromIndex(newProps.dataProvider._firstIndexToProcess, newProps.dataProvider.getSize());
+                    this._virtualRenderer.refresh();
+                }
+            } else if (this._relayoutReqIndex >= 0) {
+                debugger;
+                console.log('get layout called 2');
+                if (this._virtualRenderer.getLayoutManager()) {
+                    this._virtualRenderer.getLayoutManager().reLayoutFromIndex(this._relayoutReqIndex, newProps.dataProvider.getSize());
+                    this._relayoutReqIndex = -1;
+                    this._refreshViewability();
+                }
+            }
+        } catch (err) {
+
         }
     }
 
@@ -256,6 +268,7 @@ class RecyclerListView extends Component {
             this._initComplete = true;
             this._initTrackers();
             this._processOnEndReached();
+            this._checkAndChangeLayouts(this.props, true);
         }
         else {
             if ((hasHeightChanged && hasWidthChanged) ||
@@ -396,18 +409,22 @@ class RecyclerListView extends Component {
     }
 
     _processOnEndReached() {
-        if (this.props.onEndReached && this._virtualRenderer) {
-            let layout = this._virtualRenderer.getLayoutDimension();
-            let windowBound = this.props.isHorizontal ? layout.width - this._layout.width : layout.height - this._layout.height;
-            if (windowBound - this._virtualRenderer.getViewabilityTracker().getLastOffset() <= this.props.onEndReachedThreshold) {
-                if (!this._onEndReachedCalled) {
-                    this._onEndReachedCalled = true;
-                    this.props.onEndReached();
+        try {
+            if (this.props.onEndReached && this._virtualRenderer) {
+                let layout = this._virtualRenderer.getLayoutDimension();
+                let windowBound = this.props.isHorizontal ? layout.width - this._layout.width : layout.height - this._layout.height;
+                if (windowBound - this._virtualRenderer.getViewabilityTracker().getLastOffset() <= this.props.onEndReachedThreshold) {
+                    if (!this._onEndReachedCalled) {
+                        this._onEndReachedCalled = true;
+                        this.props.onEndReached();
+                    }
+                }
+                else {
+                    this._onEndReachedCalled = false;
                 }
             }
-            else {
-                this._onEndReachedCalled = false;
-            }
+        } catch (err) {
+            //TODO: Talha: find something to do
         }
     }
 
@@ -427,7 +444,9 @@ class RecyclerListView extends Component {
     }
 }
 
-export default RecyclerListView;
+export
+default
+RecyclerListView;
 
 RecyclerListView
     .defaultProps = {
@@ -440,7 +459,8 @@ RecyclerListView
     disableRecycling: false
 };
 
-RecyclerListView.propTypes = {
+RecyclerListView
+    .propTypes = {
 
     //Refer the sample
     layoutProvider: PropTypes.instanceOf(LayoutProvider).isRequired,
