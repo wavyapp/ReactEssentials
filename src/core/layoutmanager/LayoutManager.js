@@ -12,7 +12,7 @@ class LayoutManager {
         this._window = dimensions;
         this._totalHeight = 0;
         this._totalWidth = 0;
-        this._layouts = cachedLayouts || [];
+        this._layouts = cachedLayouts ? cachedLayouts : [];
         this._isHorizontal = isHorizontal;
     }
 
