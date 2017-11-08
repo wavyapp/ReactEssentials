@@ -17,7 +17,7 @@ class ViewabilityTracker {
 
         this._isHorizontal = false;
         this._windowBound = 0;
-
+        this.isLayoutSet = false;
         this._visibleIndexes = [];  //needs to be sorted
         this._engagedIndexes = [];  //needs to be sorted
 
@@ -27,13 +27,21 @@ class ViewabilityTracker {
         this._relevantDim = {startBound: 0, endBound: 0};
 
         this._valueExtractorForBinarySearch = this._valueExtractorForBinarySearch.bind(this);
+        this.isLayoutSet = this.getIsLayoutSet.bind(this);
     }
 
     init() {
         this._doInitialFit(this._currentOffset);
     }
 
+    getIsLayoutSet() {
+        return this.isLayoutSet;
+    }
+
     setLayouts(layouts, maxOffset) {
+        console.log('layouts set in viewability tracker');
+        console.log(layouts);
+        this.isLayoutSet = true;
         this._layouts = layouts;
         this._maxOffset = maxOffset;
     }

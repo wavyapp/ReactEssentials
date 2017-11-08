@@ -25,6 +25,7 @@ class VirtualRenderer {
         this.onVisibleItemsChanged = null;
         this._onEngagedItemsChanged = this._onEngagedItemsChanged.bind(this);
         this._onVisibleItemsChanged = this._onVisibleItemsChanged.bind(this);
+        this._prepareViewabilityTracker = this._prepareViewabilityTracker.bind(this);
     }
 
     getLayoutDimension() {
@@ -79,7 +80,9 @@ class VirtualRenderer {
     }
 
     refreshWithAnchor() {
-        console.log('refresh with anchor called:' + this._layoutManager.getLayouts());
+        console.log('refresh with anchor called:');
+        console.log(this._layoutManager.getLayouts());
+        console.log('viewabilitytrackerlayoutset?: ' + this._viewabilityTracker.getIsLayoutSet());
         let firstVisibleIndex = this._viewabilityTracker.findFirstLogicallyVisibleIndex();
         this._prepareViewabilityTracker();
         let offset = 0;
