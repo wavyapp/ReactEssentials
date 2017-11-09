@@ -6,7 +6,7 @@ file-directives WEB,RELEASE &&
 cd .. &&
 babel src --out-dir dist/web &&
 cd src &&
-file-directives REACT-NATIVE,RELEASE &&
+file-directives WEB,RELEASE &&
 cd .. &&
 babel src --out-dir dist/reactnative &&
 cd src &&

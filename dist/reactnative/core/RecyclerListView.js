@@ -92,19 +92,20 @@ var refreshRequestDebouncer = (0, _debounce3.default)(function (executable) {
  * Alternatively, you can start importing from recyclerlistview/web
  */
 //#if [REACT-NATIVE]
-if (process.env.RLV_ENV && process.env.RLV_ENV === 'browser') {
-    platform = "web";
-    ScrollComponent = require("./scrollcomponent/web/ScrollComponent").default;
-    ViewRenderer = require("./viewrenderer/web/ViewRenderer").default;
-} else {
-    ScrollComponent = require("./scrollcomponent/reactnative/ScrollComponent").default;
-    ViewRenderer = require("./viewrenderer/reactnative/ViewRenderer").default;
-}
+//if (process.env.RLV_ENV && process.env.RLV_ENV === 'browser') {
+//    platform = "web";
+//    ScrollComponent = require("./scrollcomponent/web/ScrollComponent").default;
+//    ViewRenderer = require("./viewrenderer/web/ViewRenderer").default;
+//} else {
+//    ScrollComponent = require("./scrollcomponent/reactnative/ScrollComponent").default;
+//    ViewRenderer = require("./viewrenderer/reactnative/ViewRenderer").default;
+//
+//}
 //#endif
 
 //#if [WEB]
-// ScrollComponent = require("./scrollcomponent/web/ScrollComponent").default;
-// ViewRenderer = require("./viewrenderer/web/ViewRenderer").default;
+ScrollComponent = require("./scrollcomponent/web/ScrollComponent").default;
+ViewRenderer = require("./viewrenderer/web/ViewRenderer").default;
 //#endif
 
 /***
